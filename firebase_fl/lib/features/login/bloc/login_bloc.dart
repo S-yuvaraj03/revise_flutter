@@ -3,7 +3,7 @@ import 'package:firebase_fl/repos/Models/dataModels.dart';
 
 getauth() {
   print(FirebaseAuth.instance.currentUser);
-  if (FirebaseAuth.instance.currentUser!.phoneNumber != null) {
+  if (FirebaseAuth.instance.currentUser != null) {
     return FirebaseAuth.instance.currentUser!.phoneNumber;
   } else {
     return '';
@@ -15,7 +15,7 @@ getdata() {
 }
 
 class GoogleBloc extends Bloc<GoogleEvent, GoogleState> {
-  GoogleBloc() : super(GoogleState(user: getdata())) {
+  GoogleBloc() : super(GoogleState(user: null)) {
     on<loginGoogle>(((event, emit) async {
       print('---Google auth----');
       UserCredential _auth = await firebaseAuthgooogle().signInWithGoogle();
@@ -27,7 +27,7 @@ class GoogleBloc extends Bloc<GoogleEvent, GoogleState> {
 }
 
 class EmailBloc extends Bloc<EmailEvent, EmailState> {
-  EmailBloc() : super(EmailState(user: getdata())) {
+  EmailBloc() : super(EmailState(user:'')) {
     on<loginEmail>(((event, emit) async {
       final _auth = firebaseAuthemail();
       User? user = await _auth.EmailLogin(event.email, event.passcode);
